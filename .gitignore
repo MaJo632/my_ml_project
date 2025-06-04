@@ -137,3 +137,9 @@ dmypy.json
 
 # Data 
 data/
+
+# resources
+resources/
+
+# pptx
+.pptx
