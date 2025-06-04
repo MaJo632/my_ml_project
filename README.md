@@ -1,87 +1,64 @@
 [![Shipping files](https://github.com/neuefische/ds-ml-project-template/actions/workflows/workflow-02.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/neuefische/ds-ml-project-template/actions/workflows/workflow-02.yml)
 
-# Template Repo for ML Project
+# ML Project: Fraud Detection in Electricity and Gas Consumption
 
-This template repo will give you a good starting point for your second project. Besides the files used for creating a virtual environment, you will find a simple example of how to build a simple model in a python script. This is maybe the simplest way to do it. We train a simple model in the jupyter notebook, where we select only some features and do minimal cleaning. The output is then stored in simple python scripts.
+## About the project
 
-The data used for this is: [coffee quality dataset](https://github.com/jldbc/coffee-quality-database).
+This repository solves Zindi’s “Fraud Detection in Electricity and Gas Consumption” challenge. The aim is to detect fraudulent electricity / gas usage patterns using historical consumption and customer data.
+
+The data used for this is: [fraud detection dataset](https://zindi.africa/competitions/instadeep-fraud-detection-in-electricity-and-gas-consumption-challenge/data).
 
 ---
 
-## Set up a Kanban board on github
+Utility companies lose revenue when customers manipulate their meter readings. The challenge was to build a model that predicts whether a reading is fraudulent (1) or legitimate (0).
 
-Go to ML-Project Template.
+## Dataset
+The dataset contains the following files:
 
-1. Click on "Use this Template" (Blue button)
-![alt text](./images/step_1a_new.png)
+### train.zip
+Client_train.csv - Client information in the train population
+Invoice_train.csv - Clients invoice in the train set
 
-1. Create new repository with relevant name, the owner should be your own account. 
-![alt text](./images/step_2_new.png)
+### test.zip
+Client_test.csv - Client information for the test population
+Invoice_test.csv - Clients invoice in the test set
 
-1. In your newly create repo, navigate to "Projects", and then click on "Link a project" (blue button). Normally you don't have created a project yet, so you can click the arrow navigation to create project on your profile. This project can be added at the end to your repository.
-![alt text](./images/add_project_new.png)
+SampleSubmission.csv - example of the submission file
 
+### Columns
 
-4.  You will be guided to your profiles projects and it will be shown a create project window. Choose "board" view and **not** "table" view.
- ![alt text](./images/choose_board.png)
-5. Now change the name of your board, to match that of your chosen ML project. Then click "Create project" blue button. Great you create Kanban Board
-![alt text](./images/create_project_new.png)
+Client Data
 
-6. Next, assign rights to all your team members by clicking on the 3 dots on the top right of the board, and then go to "Settings".
-![alt text](./images/kanban_settings.png)
+| Variable       | Description                  |
+| -------------- | ---------------------------- |
+| Client\_id     | Unique id for client         |
+| District       | District where the client is |
+| Client\_catg   | Category client belongs to   |
+| Region         | Area where the client is     |
+| Creation\_date | Date client joined           |
+| Target         | fraud: 1, not fraud: 0       |
 
+Invoice Data
 
-7. Next, click on "Manage Access". Add your team mates by Searching for their github handle in the search window.Change their Role from ‘Write’ to ‘Admin’. Click on the blue button “Invite” to add them. Repeat for all team members.
-![alt text](./images/team_access_new.png
-)
+| Variable               | Description                                                                                                                                |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Client\_id             | Unique id for the client                                                                                                                   |
+| Invoice\_date          | Date of the invoice                                                                                                                        |
+| Tarif\_type            | Type of tax                                                                                                                                |
+| Counter\_number        | Counter number                                                                                                                             |
+| Counter\_statue        | Takes up to 5 values such as working fine, not working, on hold status, etc.                                                               |
+| Counter\_code          | Counter code                                                                                                                               |
+| Reading\_remarque      | Notes that the STEG agent takes during his visit to the client (e.g., if the counter shows something wrong, the agent gives a “bad” score) |
+| Counter\_coefficient   | An additional coefficient to be added when standard consumption is exceeded                                                                |
+| Consommation\_level\_1 | Consumption\_level\_1                                                                                                                      |
+| Consommation\_level\_2 | Consumption\_level\_2                                                                                                                      |
+| Consommation\_level\_3 | Consumption\_level\_3                                                                                                                      |
+| Consommation\_level\_4 | Consumption\_level\_4                                                                                                                      |
+| Old\_index             | Old index (previous meter reading)                                                                                                         |
+| New\_index             | New index (current meter reading)                                                                                                          |
+| Months\_number         | Month number                                                                                                                               |
+| Counter\_type          | Type of counter                                                                                                                            |
 
-8. Next,go back to the kanban board and at the bottom  add action items with the relevant name e.g. “load data”, "get statistics", etc.
-![alt text](./images/load_data_item.png
-)
-
-
-9. Convert added item to issue by clicking on the 3 dots on the particular added item.
-![alt text](./images/convert_to_issue.png
-)
-
-10. Then select the repo you created  for the issue to be added. (Select the project repo example “my-project-name”)
-![alt text](./images/select_repo.png
-)
-
-11. When in project repo, Go to issues, then go to milestones. 
-![alt text](./images/to_milestones.png
-)
-
-12. Click on ”New milestone”.
-
-13. Give the milestone a due date and description as per the example provided by the coaches. Add description of: 
-
-    A) What needs to be completed to be done with the milestone
-
-    B) The definition of done: what will your result look like when you have completed the milestone? (check the provided format)
-![alt text](./images/new_milestone.png)
-
-14. Now navigate to "issues".
-
-15. Assign issues to milestones 
-![alt text](./images/milestone_to_issue_new.png)
-
-16. Give it assignees (people who will work on the task). 
-![alt text](./images/milestone_to_someone.png)
-
-### Optional: Add workflows
-
-Workflows can help you keep your kanban board automatically on track. 
-
-Select the project created in the steps above.  
-
-Click on the 3 dots to the far right of the board (...)
-
-Select workflow as the first option. 
-
-Activate the ones you feel necessary to your project
-
-Go back to your project repository (fraud detection))
 
 ## Set up your Environment
 
@@ -157,8 +134,5 @@ In order to test that predict works on a test set you created run:
 python example_files/predict.py models/linear_regression_model.sav data/X_test.csv data/y_test.csv
 ```
 
-## Limitations
-
-Development libraries are part of the production environment, normally these would be separate as the production code should be as slim as possible.
 
 
