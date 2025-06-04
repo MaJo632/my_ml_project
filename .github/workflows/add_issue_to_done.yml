@@ -10,10 +10,6 @@ jobs:
     steps:
       - name: Generate token
         id: generate_token
-        uses: actions/create-github-app-token@v1.7.0
-        with:
-          app-id: ${{ secrets.DS_PROJECT_BOARD_APP_ID }}
-          private-key: ${{ secrets.DS_PROJECT_BOARD_APP_PEM }}
       # Sets environment variables for this step.
       - name: Get project data
         env:
