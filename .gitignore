@@ -136,7 +136,7 @@ dmypy.json
 .vscode
 
 # Data 
-data/
+0_data/
 
 # resources
 resources/
