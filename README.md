@@ -1,138 +1,90 @@
-[![Shipping files](https://github.com/neuefische/ds-ml-project-template/actions/workflows/workflow-02.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/neuefische/ds-ml-project-template/actions/workflows/workflow-02.yml)
+# Fraud Detection
 
-# ML Project: Fraud Detection in Electricity and Gas Consumption
+The idea and data of this project comes from ZINDI:
+[Fraud Detection in Electricity and Gas Consumption Challenge](https://zindi.africa/competitions/fraud-detection-in-electricity-and-gas-consumption-challenge/data)
 
-## About the project
+Collaborators: [@BasaJess](https://github.com/BasaJess), [@Kathixx](https://github.com/Kathixx) and [@MaJo632](https://github.com/MaJo632)
 
-This repository solves Zindi’s “Fraud Detection in Electricity and Gas Consumption” challenge. The aim is to detect fraudulent electricity / gas usage patterns using historical consumption and customer data.
+The short-term (4 days) project was part of the Datascience & AI Bootcamp from [@neuefische](https://github.com/neuefische).
 
-The data used for this is: [fraud detection dataset](https://zindi.africa/competitions/instadeep-fraud-detection-in-electricity-and-gas-consumption-challenge/data).
+## About Fraud Detection
 
----
+Fraud detection is essential to protect individuals, businesses, and institutions from financial loss, reputational damage, and security breaches. As digital transactions and online services grow, so do opportunities for fraudsters to exploit vulnerabilities. Traditional rule-based systems often fail to keep up with evolving fraud tactics.
 
-Utility companies lose revenue when customers manipulate their meter readings. The challenge was to build a model that predicts whether a reading is fraudulent (1) or legitimate (0).
+Machine learning offers a powerful solution by learning patterns from vast amounts of data and adapting to new threats in real time. It can detect subtle anomalies, uncover hidden relationships, and flag suspicious activities more accurately and efficiently than manual methods. By continuously improving with new data, machine learning helps stay one step ahead of increasingly sophisticated fraud schemes.
 
-## Dataset
-The dataset contains the following files:
+## Progress
 
-### train.zip
-Client_train.csv - Client information in the train population
-Invoice_train.csv - Clients invoice in the train set
+**Data:**
+Zindi provides data from The Tunisian Company of Electricity and Gas (STEG). It contains two different files:
 
-### test.zip
-Client_test.csv - Client information for the test population
-Invoice_test.csv - Clients invoice in the test set
+- client data: such as district, region, creation and the target value (fraud or not)
+- billing history from 2005 -2019: e.g. invoice date, tarif type, counter code, consommation level
 
-SampleSubmission.csv - example of the submission file
+**Feature Engineering:**
+The big challenge in this project was feature engineering. Due to the short timeframe of this project, we decided to continue modelling after two days of cleaning and understanding the data and feature engineering, even though we know we could have done much more to optimise our results.
 
-### Columns
+**Imbalanced Data:**
+Another typical problem with fraud detection is an imbalanced dataset - as it was here. So we tried different under- and oversampling methods (like SMOTE) to face this issue.
 
-Client Data
+**Modelling:**
+We started to model different classification models: Logistic regression, K-nearest Neighbors, Decision Tree and SGD-Classifier.
+Our baseline model was a decision tree withoud GridSearch.
+To optimize our models, we also implemented XGBoost, Random Forest and Stacking.
 
-| Variable       | Description                  |
-| -------------- | ---------------------------- |
-| Client\_id     | Unique id for client         |
-| District       | District where the client is |
-| Client\_catg   | Category client belongs to   |
-| Region         | Area where the client is     |
-| Creation\_date | Date client joined           |
-| Target         | fraud: 1, not fraud: 0       |
+## Results
 
-Invoice Data
+Surprisingly, our baseline model (decision tree) performed best. Even advanced (ensemble) methods such as XGBoost, Random Forest or Stacking couldn't produce a better result.
 
-| Variable               | Description                                                                                                                                |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Client\_id             | Unique id for the client                                                                                                                   |
-| Invoice\_date          | Date of the invoice                                                                                                                        |
-| Tarif\_type            | Type of tax                                                                                                                                |
-| Counter\_number        | Counter number                                                                                                                             |
-| Counter\_statue        | Takes up to 5 values such as working fine, not working, on hold status, etc.                                                               |
-| Counter\_code          | Counter code                                                                                                                               |
-| Reading\_remarque      | Notes that the STEG agent takes during his visit to the client (e.g., if the counter shows something wrong, the agent gives a “bad” score) |
-| Counter\_coefficient   | An additional coefficient to be added when standard consumption is exceeded                                                                |
-| Consommation\_level\_1 | Consumption\_level\_1                                                                                                                      |
-| Consommation\_level\_2 | Consumption\_level\_2                                                                                                                      |
-| Consommation\_level\_3 | Consumption\_level\_3                                                                                                                      |
-| Consommation\_level\_4 | Consumption\_level\_4                                                                                                                      |
-| Old\_index             | Old index (previous meter reading)                                                                                                         |
-| New\_index             | New index (current meter reading)                                                                                                          |
-| Months\_number         | Month number                                                                                                                               |
-| Counter\_type          | Type of counter                                                                                                                            |
+| Model                         | ROC AUC Score |
+| ----------------------------- | ------------- |
+| baseline model: decision tree | 0.76          |
+| random forest                 | 0.62          |
+| stacking                      | 0.62          |
+| XGBoost                       | 0.62          |
 
+## Repo Structure
+
+- 0_data: data available from Zindi
+- 1_eda: explorative data analysis and feature engineering
+- 2_models: different implemented simple and advanced models
+- 3_visualization: plots of imbalanced data and result
+- 4_additional: additional files, which where not used in the final presentation but may be useful, e. g. previous feature engineering notebooks
 
 ## Set up your Environment
 
+### **`macOS`** type the following commands :
 
-
-### **`macOS`** type the following commands : 
-
-- For installing the virtual environment you can either use the [Makefile](Makefile) and run `make setup` or install it manually with the following commands:
-
-     ```BASH
-    make setup
-    ```
-    After that active your environment by following commands:
-    ```BASH
-    source .venv/bin/activate
-    ```
-Or ....
 - Install the virtual environment and the required packages by following commands:
 
-    ```BASH
-    pyenv local 3.11.3
-    python -m venv .venv
-    source .venv/bin/activate
-    pip install --upgrade pip
-    pip install -r requirements.txt
-    ```
-    
+  ```BASH
+  pyenv local 3.11.3
+  python -m venv .venv
+  source .venv/bin/activate
+  pip install --upgrade pip
+  pip install -r requirements.txt
+  ```
+
 ### **`WindowsOS`** type the following commands :
 
 - Install the virtual environment and the required packages by following commands.
 
-   For `PowerShell` CLI :
+  For `PowerShell` CLI :
 
-    ```PowerShell
-    pyenv local 3.11.3
-    python -m venv .venv
-    .venv\Scripts\Activate.ps1
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-    ```
+  ```PowerShell
+  pyenv local 3.11.3
+  python -m venv .venv
+  .venv\Scripts\Activate.ps1
+  python -m pip install --upgrade pip
+  pip install -r requirements.txt
+  ```
 
-    For `Git-bash` CLI :
-  
-    ```BASH
-    pyenv local 3.11.3
-    python -m venv .venv
-    source .venv/Scripts/activate
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-    ```
+  For `Git-bash` CLI :
 
-    **`Note:`**
-    If you encounter an error when trying to run `pip install --upgrade pip`, try using the following command:
-    ```Bash
-    python.exe -m pip install --upgrade pip
-    ```
-
-
-   
-## Usage
-
-In order to train the model and store test data in the data folder and the model in models run:
-
-**`Note`**: Make sure your environment is activated.
-
-```bash
-python example_files/train.py  
-```
-
-In order to test that predict works on a test set you created run:
-
-```bash
-python example_files/predict.py models/linear_regression_model.sav data/X_test.csv data/y_test.csv
-```
-
-
-
+  ```BASH
+  pyenv local 3.11.3
+  python -m venv .venv
+  source .venv/Scripts/activate
+  python -m pip install --upgrade pip
+  pip install -r requirements.txt
+  ```
